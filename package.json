@@ -1,0 +1,43 @@
+{
+  "name": "spartan-market",
+  "version": "1.0.0",
+  "description": "We’re going to build a web application using **javascript/node.js** on client side and any web programming languages (such as Ruby/Rails, Java/Scala, Python and node.js) on server side. The server-side program should provide for itself such functions as **transaction processing**, **database connectivity**, and/or **messaging**. Using Amazon Web Services (AWS) cloud-hosting infrastructure for project development is optional and deploy it on heroku is mandatory.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qwook/cmpe172-webapp.git"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/qwook/cmpe172-webapp/issues"
+  },
+  "homepage": "https://github.com/qwook/cmpe172-webapp#readme",
+  "dependencies": {
+    "babel-plugin-transform-class-properties": "^6.19.0",
+    "babel-plugin-transform-es2015-arrow-functions": "^6.8.0",
+    "babel-plugin-transform-es2015-block-scoping": "^6.18.0",
+    "babel-plugin-transform-es2015-classes": "^6.18.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "express": "^4.14.0",
+    "grunt": "^1.0.1",
+    "grunt-babel": "^6.0.0",
+    "grunt-concurrent": "^2.3.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-express-server": "^0.5.3",
+    "grunt-newer": "^1.2.0",
+    "grunt-webpack": "^1.0.18",
+    "mongodb": "^2.2.12",
+    "mysql": "^2.0.0-alpha8",
+    "orm": "^3.1.0",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "source-map-loader": "^0.1.5",
+    "webpack": "^1.13.3",
+    "webpack-dev-server": "^1.16.2"
+  }
+}
