@@ -18,6 +18,8 @@ var _Comments = require('./Comments');
 
 var _Comments2 = _interopRequireDefault(_Comments);
 
+var _reactRouter = require('react-router');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41,7 +43,16 @@ var ItemBox = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         { className: 'panel panel-default' },
-        _react2.default.createElement(_SmartImage2.default, { src: 'http://placehold.it/500x500' }),
+        _react2.default.createElement(
+          'div',
+          { className: 'panel-body' },
+          _react2.default.createElement(
+            'p',
+            { style: { fontWeight: "bold" } },
+            this.props.post.user.username
+          )
+        ),
+        _react2.default.createElement(_SmartImage2.default, { src: "/image/" + this.props.post._id }),
         _react2.default.createElement(
           'div',
           { className: 'panel-body' },
@@ -54,12 +65,12 @@ var ItemBox = function (_React$Component) {
               _react2.default.createElement(
                 'h4',
                 null,
-                'Tickets to Some Show'
+                this.props.post.title
               ),
               _react2.default.createElement(
                 'p',
                 null,
-                'Yeah yeah yeah!'
+                this.props.post.description
               )
             ),
             _react2.default.createElement(
@@ -68,14 +79,15 @@ var ItemBox = function (_React$Component) {
               _react2.default.createElement(
                 'p',
                 { style: { fontWeight: "bold", color: "green", fontSize: "18pt" } },
-                '$100'
+                '$',
+                this.props.post.price
               ),
               _react2.default.createElement(
                 'p',
                 null,
                 _react2.default.createElement(
-                  'div',
-                  { className: 'btn btn-success' },
+                  _reactRouter.Link,
+                  { to: "/item/" + this.props.post._id, className: 'btn btn-default' },
                   'Contact'
                 )
               )

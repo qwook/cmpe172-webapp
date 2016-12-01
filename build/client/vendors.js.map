@@ -1,1 +1,1 @@
-{"version":3,"sources":["../../client/vendors.js"],"names":["require"],"mappings":";;AACAA,QAAQ,OAAR;AACAA,QAAQ,WAAR","file":"vendors.js","sourcesContent":["\nrequire('react')\nrequire('react-dom')\n"]}
+{"version":3,"sources":["../../client/vendors.js"],"names":["require"],"mappings":";;AACAA,QAAQ,OAAR;AACAA,QAAQ,WAAR;AACAA,QAAQ,cAAR;AACAA,QAAQ,aAAR","file":"vendors.js","sourcesContent":["\nrequire('react')\nrequire('react-dom')\nrequire('react-router')\nrequire('simple-ajax')\n"]}

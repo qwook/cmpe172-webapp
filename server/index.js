@@ -1,39 +1,55 @@
 
-var express = require('express');
-var orm = require('orm');
+import express from 'express';
+import bodyParser from 'body-parser';
+import orm from 'orm';
+import api from './api';
 
 var app = express();
+app.use(bodyParser.json({limit: '50mb'}));
 
 app.use(orm.express('mongodb://localhost/spartanshop', {
   define: function(db, models, next) {
-    // start clean every time
-    db.drop(function() {
-      models.User = db.define("User", {
-        username: {type: "text", unique: true},
-        password: String
-      });
+    models.User = db.define("User", {
+      username: {type: "text", unique: true},
+      password: String
+    });
 
-      models.Post = db.define("Post", {
-        image: Buffer,
-        description: String,
-        price: Number,
-        user: Number
-      });
+    models.Post = db.define("Post", {
+      image: Buffer,
+      title: String,
+      description: String,
+      price: Number,
+      user: String,
+      timestamp: Number
+    });
 
-      models.Comment = db.define("Comment", {
-        parent: Number,
-        content: String,
-        user: Number
-      });
+    models.Comment = db.define("Comment", {
+      parent: String,
+      content: String,
+      user: String,
+      hidden: Boolean,
+      reply: Number
+    });
 
-      next();
-    })
+    models.Notification = db.define("Notification", {
+      post: String,
+      comment: String,
+      user: String
+    });
+
+
+    // db.drop(function() {});
+
+    next();
   }
 }))
 
-app.use('/', express.static('build'))
+api(app);
+
 app.use('/', express.static('public'))
+app.use('/', express.static('build'))
 app.use('/thirdparty', express.static('bower_components'))
+app.use('/*', express.static('public/index.html'))
 
 app.listen(8080);
 console.log("Listening on 8080...");
