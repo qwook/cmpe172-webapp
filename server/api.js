@@ -12,12 +12,6 @@ export default function(app) {
     } else {
       let Post = req.models.Post
 
-      for (let key in req.body) {
-        console.log(key);
-      }
-      // console.log(req.body);
-      // console.log(req.body.image);
-
       Post.create({
         title: req.body.title,
         description: req.body.description,
@@ -90,5 +84,9 @@ export default function(app) {
       })
     })
   });
+
+  app.get('/api/comments', (req, res) => {
+    
+  })
 
 }

@@ -16,12 +16,6 @@ exports.default = function (app) {
     } else {
       var Post = req.models.Post;
 
-      for (var key in req.body) {
-        console.log(key);
-      }
-      // console.log(req.body);
-      // console.log(req.body.image);
-
       Post.create({
         title: req.body.title,
         description: req.body.description,
@@ -94,5 +88,7 @@ exports.default = function (app) {
       });
     });
   });
+
+  app.get('/api/comments', function (req, res) {});
 };
 //# sourceMappingURL=api.js.map

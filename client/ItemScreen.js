@@ -7,7 +7,9 @@ import Comments from './Comments';
 
 export default class ItemScreen extends React.Component {
 
-  state = {};
+  state = {
+    commentHidden: false
+  };
 
   componentWillMount() {    
     var ajax = new Ajax(
@@ -51,6 +53,15 @@ export default class ItemScreen extends React.Component {
 
   componentDidMount() {
     this.refs.commentInput.focus();
+    $(this.refs.hideCommentButton).tooltip({selector: true, title: () => this.state.commentHidden ? "Only " + (this.state.user ? this.state.user.username : "ERR") + " can see this comment." : "Everyone can see this comment."});
+  }
+
+  toggleCommentHide() {
+    this.setState({
+      commentHidden: !this.state.commentHidden
+    });
+    // $(this.refs.hideCommentButton).tooltip('hide');
+    setTimeout(() => $(this.refs.hideCommentButton).tooltip('show'), 0);
   }
 
   render() {
@@ -76,15 +87,15 @@ export default class ItemScreen extends React.Component {
       <div className="row">
         <div className="col-xs-12">
           <Comments />
-          <div className="input-group">
+          <form className="input-group">
             <input className="form-control" type="text" ref="commentInput" />
-            <span className="input-group-btn">
-              <div className="btn btn-default"><span className="glyphicon glyphicon-eye-open" /></div>
+            <span className="input-group-btn" ref="hideCommentButton" data-toggle="tooltip" data-placement="left">
+              <div className="btn btn-default" onClick={this.toggleCommentHide.bind(this)}><span className={"glyphicon " + (this.state.commentHidden ? "glyphicon-eye-close" : "glyphicon-eye-open")} /></div>
             </span>
             <span className="input-group-btn">
-              <div className="btn btn-primary">Send</div>
+              <input type="submit" className="btn btn-primary" value="Send"/>
             </span>
-          </div>
+          </form>
         </div>
       </div>
     </div>
