@@ -1,14 +1,23 @@
 
 import express from 'express';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import orm from 'orm';
+import session from 'express-session';
 import api from './api';
+
+const MongoStore = require('connect-mongo')(session)
 
 var app = express();
 app.use(bodyParser.json({limit: '50mb'}));
+app.use(cookieParser());
+
+var orm_db;
 
 app.use(orm.express('mongodb://localhost/spartanshop', {
   define: function(db, models, next) {
+    orm_db = db;
+
     models.User = db.define("User", {
       username: {type: "text", unique: true},
       password: String
@@ -49,7 +58,12 @@ app.use(orm.express('mongodb://localhost/spartanshop', {
 
     next();
   }
-}))
+}));
+
+app.use((req, res, next) => session({
+  secret: 'huhuhuhuhu',
+  store: new MongoStore({db: orm_db.driver.db})
+})(req, res, next));
 
 api(app);
 

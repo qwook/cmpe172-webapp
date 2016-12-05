@@ -8,9 +8,17 @@ var _bodyParser = require('body-parser');
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
+var _cookieParser = require('cookie-parser');
+
+var _cookieParser2 = _interopRequireDefault(_cookieParser);
+
 var _orm = require('orm');
 
 var _orm2 = _interopRequireDefault(_orm);
+
+var _expressSession = require('express-session');
+
+var _expressSession2 = _interopRequireDefault(_expressSession);
 
 var _api = require('./api');
 
@@ -18,11 +26,18 @@ var _api2 = _interopRequireDefault(_api);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var MongoStore = require('connect-mongo')(_expressSession2.default);
+
 var app = (0, _express2.default)();
 app.use(_bodyParser2.default.json({ limit: '50mb' }));
+app.use((0, _cookieParser2.default)());
+
+var orm_db;
 
 app.use(_orm2.default.express('mongodb://localhost/spartanshop', {
   define: function (db, models, next) {
+    orm_db = db;
+
     models.User = db.define("User", {
       username: { type: "text", unique: true },
       password: String
@@ -63,6 +78,13 @@ app.use(_orm2.default.express('mongodb://localhost/spartanshop', {
     next();
   }
 }));
+
+app.use(function (req, res, next) {
+  return (0, _expressSession2.default)({
+    secret: 'huhuhuhuhu',
+    store: new MongoStore({ db: orm_db.driver.db })
+  })(req, res, next);
+});
 
 (0, _api2.default)(app);
 

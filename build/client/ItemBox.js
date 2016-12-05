@@ -10,6 +10,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _simpleAjax = require('simple-ajax');
+
+var _simpleAjax2 = _interopRequireDefault(_simpleAjax);
+
 var _SmartImage = require('./SmartImage');
 
 var _SmartImage2 = _interopRequireDefault(_SmartImage);
@@ -31,13 +35,58 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var ItemBox = function (_React$Component) {
   _inherits(ItemBox, _React$Component);
 
-  function ItemBox() {
+  function ItemBox(...args) {
+    var _temp, _this, _ret;
+
     _classCallCheck(this, ItemBox);
 
-    return _possibleConstructorReturn(this, (ItemBox.__proto__ || Object.getPrototypeOf(ItemBox)).apply(this, arguments));
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (ItemBox.__proto__ || Object.getPrototypeOf(ItemBox)).call(this, ...args)), _this), _this.state = {
+      comments: []
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(ItemBox, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.loadComments();
+    }
+  }, {
+    key: 'loadComments',
+    value: function loadComments() {
+      var _this2 = this;
+
+      var ajax = new _simpleAjax2.default({
+        url: '/api/comments/' + this.props.post._id,
+        method: 'GET',
+        contentType: 'application/json'
+      });
+
+      ajax.on('success', function (e) {
+        console.log(e.target.response);
+
+        var res = JSON.parse(e.target.response);
+
+        if (res.success) {
+          _this2.setState({
+            comments: res.comments
+          });
+        } else {
+          _this2.setState({
+            error: res.err
+          });
+        }
+      });
+
+      ajax.on('error', function () {
+        _this2.setState({
+          error: "Ajax Error",
+          loading: false
+        });
+      });
+
+      ajax.send();
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -100,7 +149,7 @@ var ItemBox = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: 'col-xs-12' },
-              _react2.default.createElement(_Comments2.default, { comments: this.props.post.comments })
+              _react2.default.createElement(_Comments2.default, { comments: this.state.comments })
             )
           )
         )

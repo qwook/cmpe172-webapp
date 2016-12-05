@@ -12,7 +12,8 @@ export default class Comments extends React.Component {
       {this.props.comments ? this.props.comments.map((comment) =>
         <p key={comment._id}><strong>{comment.user.username}</strong>&nbsp;{comment.content}</p>
       ) : null}
-      <p><strong><a href="#">Load More Comments...</a></strong></p>
     </div>
   }
 }
+
+// <p><strong><a href="#">Load More Comments...</a></strong></p>

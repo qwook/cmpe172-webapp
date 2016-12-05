@@ -1,5 +1,6 @@
 
 import React from 'react';
+import Ajax from 'simple-ajax';
 
 import SmartImage from './SmartImage';
 import Comments from './Comments';
@@ -7,6 +8,50 @@ import Comments from './Comments';
 import { Link } from 'react-router';
 
 export default class ItemBox extends React.Component {
+
+  state = {
+    comments: []
+  }
+
+  componentDidMount() {
+    this.loadComments();
+  }
+
+  loadComments() {
+    var ajax = new Ajax(
+      {
+        url: '/api/comments/' + this.props.post._id,
+        method: 'GET',
+        contentType: 'application/json'
+      }
+    );
+
+    ajax.on('success', (e) => {
+      console.log(e.target.response);
+
+      var res = JSON.parse(e.target.response);
+
+      if (res.success) {
+        this.setState({
+          comments: res.comments
+        });
+      } else {
+        this.setState({
+          error: res.err
+        });
+      }
+    });
+
+    ajax.on('error', () => {
+      this.setState({
+        error: "Ajax Error",
+        loading: false
+      });
+    });
+
+    ajax.send();
+  }
+
   render() {
     return <div className="panel panel-default">
       <div className="panel-body">
@@ -27,7 +72,7 @@ export default class ItemBox extends React.Component {
         <hr />
         <div className="row">
           <div className="col-xs-12">
-            <Comments comments={this.props.post.comments} />
+            <Comments comments={this.state.comments} />
           </div>
         </div>
       </div>

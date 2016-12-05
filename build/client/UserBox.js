@@ -10,6 +10,14 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _simpleAjax = require('simple-ajax');
+
+var _simpleAjax2 = _interopRequireDefault(_simpleAjax);
+
+var _User = require('./User');
+
+var _User2 = _interopRequireDefault(_User);
+
 var _reactRouter = require('react-router');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -23,43 +31,105 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var UserBox = function (_React$Component) {
   _inherits(UserBox, _React$Component);
 
-  function UserBox() {
+  function UserBox(...args) {
+    var _temp, _this, _ret;
+
     _classCallCheck(this, UserBox);
 
-    return _possibleConstructorReturn(this, (UserBox.__proto__ || Object.getPrototypeOf(UserBox)).apply(this, arguments));
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (UserBox.__proto__ || Object.getPrototypeOf(UserBox)).call(this, ...args)), _this), _this.state = {
+      user: { loggedIn: false }
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(UserBox, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      this.loggedInFn = this.loggedIn.bind(this);
+      _User2.default.addListener(this.loggedInFn);
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      _User2.default.removeListener(this.loggedInFn);
+    }
+  }, {
+    key: 'loggedIn',
+    value: function loggedIn(state) {
+      console.log(state);
+      this.setState({
+        user: state
+      });
+    }
+  }, {
+    key: 'logOut',
+    value: function logOut(e) {
+
+      var ajax = new _simpleAjax2.default({
+        url: '/api/logout',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({})
+      });
+
+      ajax.on('success', function (e) {
+        window.location = '/';
+      });
+
+      ajax.on('error', function () {});
+
+      ajax.send();
+
+      e.preventDefault();
+    }
+  }, {
     key: 'render',
     value: function render() {
       console.log(this.props);
       return _react2.default.createElement(
         'div',
         { className: 'row' },
-        _react2.default.createElement(
+        this.state.user.loggedIn ? _react2.default.createElement(
           'div',
-          { className: 'col-xs-8' },
-          this.props.loggedIn,
-          _react2.default.createElement('br', null),
-          this.props.loggedIn ? _react2.default.createElement(
+          null,
+          _react2.default.createElement(
             'div',
-            { className: 'pull-right', style: { textAlign: "right" } },
-            'Welcome, ',
+            { className: 'col-xs-8' },
+            _react2.default.createElement('br', null),
             _react2.default.createElement(
-              'strong',
-              null,
-              'User'
-            ),
-            _react2.default.createElement(
-              'p',
-              null,
+              'div',
+              { className: 'pull-right', style: { textAlign: "right" } },
+              'Welcome, ',
               _react2.default.createElement(
-                _reactRouter.Link,
-                { to: '/notif' },
-                '1000 Notifications'
+                'strong',
+                null,
+                this.state.user.username
+              ),
+              _react2.default.createElement(
+                'p',
+                null,
+                _react2.default.createElement(
+                  'a',
+                  { href: '#', onClick: this.logOut.bind(this) },
+                  'Logout'
+                )
               )
             )
-          ) : _react2.default.createElement(
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'col-xs-4' },
+            _react2.default.createElement('br', null),
+            _react2.default.createElement(
+              _reactRouter.Link,
+              { to: '/post', className: 'btn btn-success', style: { width: "100%" } },
+              '+ Post'
+            )
+          )
+        ) : _react2.default.createElement(
+          'div',
+          { className: 'col-xs-12' },
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(
             'div',
             { className: 'pull-right' },
             ' ',
@@ -75,16 +145,6 @@ var UserBox = function (_React$Component) {
               'Register'
             ),
             ' '
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'col-xs-4' },
-          _react2.default.createElement('br', null),
-          _react2.default.createElement(
-            _reactRouter.Link,
-            { to: '/post', className: 'btn btn-success', style: { width: "100%" } },
-            '+ Post'
           )
         )
       );
