@@ -14,7 +14,7 @@ app.use(cookieParser());
 
 var orm_db;
 
-app.use(orm.express('mongodb://localhost/spartanshop', {
+app.use(orm.express(process.env.MONGODB_URI || 'mongodb://localhost/spartanshop', {
   define: function(db, models, next) {
     orm_db = db;
 
