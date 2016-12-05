@@ -33,17 +33,24 @@ app.use(_orm2.default.express('mongodb://localhost/spartanshop', {
       title: String,
       description: String,
       price: Number,
-      user: String,
+      // user: String,
       timestamp: Number
     });
 
+    models.Post.hasOne('user', models.User, { reverse: 'posts' });
+
     models.Comment = db.define("Comment", {
-      parent: String,
+      // parent: String,
       content: String,
-      user: String,
+      // user: String,
       hidden: Boolean,
-      reply: Number
+      // reply: String, // Reply to a user
+      timestamp: Number
     });
+
+    models.Comment.hasOne('parent', models.Post, { reverse: 'comments' });
+    models.Comment.hasOne('user', models.User);
+    models.Comment.hasOne('reply', models.User);
 
     models.Notification = db.define("Notification", {
       post: String,

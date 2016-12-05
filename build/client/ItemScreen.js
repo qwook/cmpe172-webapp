@@ -46,6 +46,11 @@ var ItemScreen = function (_React$Component) {
   _createClass(ItemScreen, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
+      this.reloadThis();
+    }
+  }, {
+    key: 'reloadThis',
+    value: function reloadThis() {
       var _this2 = this;
 
       var ajax = new _simpleAjax2.default({
@@ -107,9 +112,55 @@ var ItemScreen = function (_React$Component) {
       }, 0);
     }
   }, {
+    key: 'makeComment',
+    value: function makeComment(e) {
+      var _this5 = this;
+
+      e.preventDefault();
+      this.refs.commentInput.disabled = true;
+      this.refs.submitButton.disabled = true;
+      this.refs.hideCommentButton.disabled = true;
+
+      var ajax = new _simpleAjax2.default({
+        url: '/api/comment',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          itemId: this.props.params.itemId,
+          content: this.refs.commentInput.value,
+          hidden: this.state.commentHidden
+        })
+      });
+
+      ajax.on('success', function (e) {
+        var res = JSON.parse(e.target.response);
+
+        if (res.success) {
+          //
+          console.log("succeeded_in_commenting");
+          _this5.reloadThis();
+          _this5.refs.commentInput.value = "";
+        } else {
+          console.log(res.err);
+        }
+      });
+
+      ajax.on('error', function () {
+        //
+      });
+
+      ajax.on('complete', function () {
+        _this5.refs.commentInput.disabled = false;
+        _this5.refs.submitButton.disabled = false;
+        _this5.refs.hideCommentButton.disabled = false;
+      });
+
+      ajax.send();
+    }
+  }, {
     key: 'render',
     value: function render() {
-      console.log(this.props.params.itemId);
+      console.log(this.state.comments);
       return _react2.default.createElement(
         'div',
         null,
@@ -163,10 +214,10 @@ var ItemScreen = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: 'col-xs-12' },
-            _react2.default.createElement(_Comments2.default, null),
+            _react2.default.createElement(_Comments2.default, { comments: this.state.comments }),
             _react2.default.createElement(
               'form',
-              { className: 'input-group' },
+              { className: 'input-group', ref: 'commentForm', onSubmit: this.makeComment.bind(this) },
               _react2.default.createElement('input', { className: 'form-control', type: 'text', ref: 'commentInput' }),
               _react2.default.createElement(
                 'span',
@@ -180,7 +231,7 @@ var ItemScreen = function (_React$Component) {
               _react2.default.createElement(
                 'span',
                 { className: 'input-group-btn' },
-                _react2.default.createElement('input', { type: 'submit', className: 'btn btn-primary', value: 'Send' })
+                _react2.default.createElement('input', { type: 'submit', ref: 'submitButton', className: 'btn btn-primary', value: 'Send' })
               )
             )
           )
@@ -192,5 +243,8 @@ var ItemScreen = function (_React$Component) {
   return ItemScreen;
 }(_react2.default.Component);
 
+ItemScreen.contextTypes = {
+  router: _react2.default.PropTypes.object
+};
 exports.default = ItemScreen;
 //# sourceMappingURL=ItemScreen.js.map

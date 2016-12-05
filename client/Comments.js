@@ -2,12 +2,16 @@
 import React from 'react';
 
 export default class Comments extends React.Component {
+  static defaultProps = {
+    comments: []
+  };
+
   render() {
+    console.log(this.props.comments);
     return <div>
-      <p><strong>test_user_100</strong>&nbsp;Hey there what is up my dudettes</p>
-      <p><strong>test_user_100</strong>&nbsp;Hey there what is up my dudettes asd asd asd asd asd asd asd asd a</p>
-      <p><strong>test_user_100</strong>&nbsp;Hey there what is up my dudettes</p>
-      <p><strong>test_user_100</strong>&nbsp;Hey there what is up my dudettes</p>
+      {this.props.comments ? this.props.comments.map((comment) =>
+        <p key={comment._id}><strong>{comment.user.username}</strong>&nbsp;{comment.content}</p>
+      ) : null}
       <p><strong><a href="#">Load More Comments...</a></strong></p>
     </div>
   }

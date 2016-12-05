@@ -7,11 +7,19 @@ import Comments from './Comments';
 
 export default class ItemScreen extends React.Component {
 
+  static contextTypes = {
+      router: React.PropTypes.object
+  };
+
   state = {
     commentHidden: false
   };
 
-  componentWillMount() {    
+  componentWillMount() {
+    this.reloadThis();
+  }
+
+  reloadThis() {
     var ajax = new Ajax(
       {
         url: '/api/item/' + this.props.params.itemId,
@@ -48,7 +56,6 @@ export default class ItemScreen extends React.Component {
     });
 
     ajax.send();
-
   }
 
   componentDidMount() {
@@ -64,8 +71,55 @@ export default class ItemScreen extends React.Component {
     setTimeout(() => $(this.refs.hideCommentButton).tooltip('show'), 0);
   }
 
+  makeComment(e) {
+    e.preventDefault();
+    this.refs.commentInput.disabled = true;
+    this.refs.submitButton.disabled = true;
+    this.refs.hideCommentButton.disabled = true;
+
+
+    var ajax = new Ajax(
+      {
+        url: '/api/comment',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          itemId: this.props.params.itemId,
+          content: this.refs.commentInput.value,
+          hidden: this.state.commentHidden
+        })
+      }
+    );
+
+    ajax.on('success', (e) => {
+      var res = JSON.parse(e.target.response);
+
+      if (res.success) {
+        //
+        console.log("succeeded_in_commenting");
+        this.reloadThis();
+        this.refs.commentInput.value = "";
+      } else {
+        console.log(res.err);
+      }
+    });
+
+    ajax.on('error', () => {
+      //
+    });
+
+    ajax.on('complete', () => {
+      this.refs.commentInput.disabled = false;
+      this.refs.submitButton.disabled = false;
+      this.refs.hideCommentButton.disabled = false;
+    })
+
+    ajax.send();
+
+  }
+
   render() {
-    console.log(this.props.params.itemId);
+    console.log(this.state.comments);
     return <div>
       <div className="row">
         <div className="col-xs-12">
@@ -86,14 +140,14 @@ export default class ItemScreen extends React.Component {
       <hr />
       <div className="row">
         <div className="col-xs-12">
-          <Comments />
-          <form className="input-group">
+          <Comments comments={this.state.comments} />
+          <form className="input-group" ref="commentForm" onSubmit={this.makeComment.bind(this)}>
             <input className="form-control" type="text" ref="commentInput" />
             <span className="input-group-btn" ref="hideCommentButton" data-toggle="tooltip" data-placement="left">
               <div className="btn btn-default" onClick={this.toggleCommentHide.bind(this)}><span className={"glyphicon " + (this.state.commentHidden ? "glyphicon-eye-close" : "glyphicon-eye-open")} /></div>
             </span>
             <span className="input-group-btn">
-              <input type="submit" className="btn btn-primary" value="Send"/>
+              <input type="submit" ref="submitButton" className="btn btn-primary" value="Send"/>
             </span>
           </form>
         </div>

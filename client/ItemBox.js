@@ -27,7 +27,7 @@ export default class ItemBox extends React.Component {
         <hr />
         <div className="row">
           <div className="col-xs-12">
-            <Comments />
+            <Comments comments={this.props.post.comments} />
           </div>
         </div>
       </div>

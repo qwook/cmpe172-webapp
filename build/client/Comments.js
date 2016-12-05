@@ -30,49 +30,23 @@ var Comments = function (_React$Component) {
   _createClass(Comments, [{
     key: "render",
     value: function render() {
+      console.log(this.props.comments);
       return _react2.default.createElement(
         "div",
         null,
-        _react2.default.createElement(
-          "p",
-          null,
-          _react2.default.createElement(
-            "strong",
-            null,
-            "test_user_100"
-          ),
-          "\xA0Hey there what is up my dudettes"
-        ),
-        _react2.default.createElement(
-          "p",
-          null,
-          _react2.default.createElement(
-            "strong",
-            null,
-            "test_user_100"
-          ),
-          "\xA0Hey there what is up my dudettes asd asd asd asd asd asd asd asd a"
-        ),
-        _react2.default.createElement(
-          "p",
-          null,
-          _react2.default.createElement(
-            "strong",
-            null,
-            "test_user_100"
-          ),
-          "\xA0Hey there what is up my dudettes"
-        ),
-        _react2.default.createElement(
-          "p",
-          null,
-          _react2.default.createElement(
-            "strong",
-            null,
-            "test_user_100"
-          ),
-          "\xA0Hey there what is up my dudettes"
-        ),
+        this.props.comments ? this.props.comments.map(function (comment) {
+          return _react2.default.createElement(
+            "p",
+            { key: comment._id },
+            _react2.default.createElement(
+              "strong",
+              null,
+              comment.user.username
+            ),
+            "\xA0",
+            comment.content
+          );
+        }) : null,
         _react2.default.createElement(
           "p",
           null,
@@ -93,5 +67,8 @@ var Comments = function (_React$Component) {
   return Comments;
 }(_react2.default.Component);
 
+Comments.defaultProps = {
+  comments: []
+};
 exports.default = Comments;
 //# sourceMappingURL=Comments.js.map
