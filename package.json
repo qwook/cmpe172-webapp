@@ -4,6 +4,8 @@
   "description": "We’re going to build a web application using **javascript/node.js** on client side and any web programming languages (such as Ruby/Rails, Java/Scala, Python and node.js) on server side. The server-side program should provide for itself such functions as **transaction processing**, **database connectivity**, and/or **messaging**. Using Amazon Web Services (AWS) cloud-hosting infrastructure for project development is optional and deploy it on heroku is mandatory.",
   "main": "index.js",
   "scripts": {
+    "postinstall": "./node_modules/grunt-cli/bin/grunt install",
+    "start": "node build/server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

@@ -160,4 +160,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['concurrent:both']);
 
+  grunt.registerTask('install', ['webpack:vendors', 'recalc-plugins', 'babel:server', 'babel:client', 'webpack:dev'])
+
 }

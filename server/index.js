@@ -72,5 +72,5 @@ app.use('/', express.static('build'))
 app.use('/thirdparty', express.static('bower_components'))
 app.use('/*', express.static('public/index.html'))
 
-app.listen(8080);
+app.listen(process.env.PORT || 8080);
 console.log("Listening on 8080...");

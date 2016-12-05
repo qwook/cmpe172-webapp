@@ -93,6 +93,6 @@ app.use('/', _express2.default.static('build'));
 app.use('/thirdparty', _express2.default.static('bower_components'));
 app.use('/*', _express2.default.static('public/index.html'));
 
-app.listen(8080);
+app.listen(process.env.PORT || 8080);
 console.log("Listening on 8080...");
 //# sourceMappingURL=index.js.map
