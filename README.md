@@ -1,3 +1,8 @@
+# Individual Contributions
+* Troy Nguyen - Server / REST API
+* Henry Tran - Client / React / Gruntfile
+* Dustin Phou - Database / ORM2
+
 # Stack:
 
 * Grunt
