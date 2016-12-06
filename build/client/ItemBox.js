@@ -149,7 +149,7 @@ var ItemBox = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: 'col-xs-12' },
-              _react2.default.createElement(_Comments2.default, { comments: this.state.comments })
+              _react2.default.createElement(_Comments2.default, { comments: this.state.comments, crop: 'true' })
             )
           )
         )

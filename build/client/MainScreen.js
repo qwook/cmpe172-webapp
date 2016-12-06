@@ -81,17 +81,17 @@ var ItemScreen = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
-        this.state.posts.map(function (post) {
-          return _react2.default.createElement(
-            'div',
-            { key: post._id, className: 'row' },
-            _react2.default.createElement(
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          this.state.posts.map(function (post) {
+            return _react2.default.createElement(
               'div',
-              { className: 'col-xs-12' },
+              { key: post._id, className: 'col-xs-12 col-sm-6' },
               _react2.default.createElement(_ItemBox2.default, { post: post })
-            )
-          );
-        }),
+            );
+          })
+        ),
         _react2.default.createElement(
           'div',
           { className: 'btn btn-primary', style: { width: "100%" } },

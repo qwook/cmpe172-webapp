@@ -49,13 +49,13 @@ export default class ItemScreen extends React.Component {
   render() {
     return <div>
 
+        <div className="row">
       {this.state.posts.map((post) => 
-        <div key={post._id} className="row">
-          <div className="col-xs-12">
+          <div key={post._id} className="col-xs-12 col-sm-6">
             <ItemBox post={post} />
           </div>
-        </div>
       )}
+        </div>
 
       <div className="btn btn-primary" style={{width: "100%"}}>
         Load More

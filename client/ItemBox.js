@@ -72,7 +72,7 @@ export default class ItemBox extends React.Component {
         <hr />
         <div className="row">
           <div className="col-xs-12">
-            <Comments comments={this.state.comments} />
+            <Comments comments={this.state.comments} crop="true" />
           </div>
         </div>
       </div>

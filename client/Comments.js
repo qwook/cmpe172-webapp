@@ -8,7 +8,7 @@ export default class Comments extends React.Component {
 
   render() {
     console.log(this.props.comments);
-    return <div>
+    return <div style={{overflow: "hidden", height: this.props.crop ? "80px" : "default"}} className={this.props.crop ? "cropped-comment" : ""}>
       {this.props.comments ? this.props.comments.map((comment) =>
         <p key={comment._id}><strong>{comment.user.username}</strong>&nbsp;{comment.content}</p>
       ) : null}

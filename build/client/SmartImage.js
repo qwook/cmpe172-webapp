@@ -30,10 +30,9 @@ var SmartImage = function (_React$Component) {
   _createClass(SmartImage, [{
     key: "render",
     value: function render() {
-      return _react2.default.createElement("div", { style: {
+      return _react2.default.createElement("div", { className: "smart-image", style: {
           display: "block",
           width: "100%",
-          height: "200px",
           backgroundPosition: "center",
           backgroundSize: "cover",
           backgroundImage: "url(" + this.props.src + ")"

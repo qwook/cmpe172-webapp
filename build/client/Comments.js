@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require('react');
+var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -28,22 +28,22 @@ var Comments = function (_React$Component) {
   }
 
   _createClass(Comments, [{
-    key: 'render',
+    key: "render",
     value: function render() {
       console.log(this.props.comments);
       return _react2.default.createElement(
-        'div',
-        null,
+        "div",
+        { style: { overflow: "hidden", height: this.props.crop ? "80px" : "default" }, className: this.props.crop ? "cropped-comment" : "" },
         this.props.comments ? this.props.comments.map(function (comment) {
           return _react2.default.createElement(
-            'p',
+            "p",
             { key: comment._id },
             _react2.default.createElement(
-              'strong',
+              "strong",
               null,
               comment.user.username
             ),
-            '\xA0',
+            "\xA0",
             comment.content
           );
         }) : null

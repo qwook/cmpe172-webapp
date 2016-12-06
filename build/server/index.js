@@ -34,7 +34,7 @@ app.use((0, _cookieParser2.default)());
 
 var orm_db;
 
-app.use(_orm2.default.express('mongodb://localhost/spartanshop', {
+app.use(_orm2.default.express(process.env.MONGODB_URI || 'mongodb://localhost/spartanshop', {
   define: function (db, models, next) {
     orm_db = db;
 
@@ -93,6 +93,7 @@ app.use('/', _express2.default.static('build'));
 app.use('/thirdparty', _express2.default.static('bower_components'));
 app.use('/*', _express2.default.static('public/index.html'));
 
-app.listen(process.env.PORT || 8080);
-console.log("Listening on 8080...");
+var port = process.env.PORT || 8080;
+app.listen(port);
+console.log("Listening on " + port + "...");
 //# sourceMappingURL=index.js.map
